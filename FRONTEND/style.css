@@ -1,0 +1,122 @@
+body{
+    background: linear-gradient(90deg, #0A1128 0%, #001F52  50%, #034694 100%);
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #034694;
+}
+.navbar{
+    display: flex;
+    padding: 10px;
+    margin-bottom: 0px;
+    width: 10vh;
+    height: 10vh;
+    gap: 90px;
+    align-items: center;
+    
+}
+
+ .navlinks {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    gap: 60px;
+    color: aquamarine;
+    list-style: none;
+    cursor: pointer;
+    
+}
+.navlinks a{
+    text-decoration: none;
+    color: rgb(24, 180, 180);
+    transition: 0.1s;
+    
+}
+
+.search-box input{
+    align-items: center;
+    background-color: #fff;
+    border-radius: 9px;
+    border: none;
+    padding: 6px 12px;
+    outline: none;
+    margin-left: 30px;
+}
+
+
+
+
+.welcome{
+   display: flex;
+}
+
+
+
+.welcome-page{
+    padding: 90px;
+    color: aqua;
+    margin-top: 100px;
+    
+}
+
+h1{
+    font-size:35px ;
+    font-style: oblique;
+    font-weight: bold;
+}
+
+p{
+    font-size: 1.2rem;
+    margin-bottom: 32px;
+
+}
+
+#loginform{
+  margin-top: 120px;  
+  width: 220%;  
+  height: 390px;
+  background-color: #0a1a2f; 
+  padding: 20px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}
+#loginform h1{
+    display: flex;
+    justify-content: center;
+    color: #fff;
+}
+label{
+    color: white;
+    display: block;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: bold;
+}
+#loginform input{
+    width: 90%;
+    height: 310px;
+    margin-top: 40px;
+    border-radius: 10px;
+    background-color: aqua;
+}
+#button{
+    width: 120px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+    border-radius: 50px;
+    background-color: aqua;
+
+}
+
+
