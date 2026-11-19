@@ -1,22 +1,49 @@
 # 📚 ONLINE LIBRARY
 
-An Online Library System - Work in Progress.
+An Online Library System where users can register, login, search for books, and manage books.
 
-### 🚧 Current Status
+## ✅ Current Status
+
+- [x] Register Page
 - [x] Login Page
-- [ ] Registration (fixing)
-- [ ] Dashboard (fixing)
-- [ ] Books browsing
+- [x] Dashboard
+- [x] Books browsing
+- [x] Add Book
+- [ ] Borrow Book 
 
-### 🛠️ Tech Stack
+## 🛠️ Tech Stack
+
 - HTML, CSS, JavaScript
-- Node.js
+- Node.js, Express.js
+- MongoDB + Mongoose
+- JWT Auth + bcrypt
 
-### 👩‍💻 Author
-Ife for Christ - [@ifeforchrist](https://github.com/ifeforchrist)
+## 📁 Project Structure
 
-### How to Run
+ONLINE-LIBRARY/
+├── BACKEND/
+│   ├── config/ - database connection
+│   ├── controller/ - borrowerController
+│   ├── middleware/ - auth
+│   ├── models/ - book, borrower
+│   ├── router/ - book, borrower routes
+│   ├── index.js
+│   └── package.json
+└── FRONTEND/
+    ├── login.HTML, login.js
+    ├── register.html, register.js, register.css
+    ├── dashboard.html, dashboard.js, dashboard.css
+    └── style.css
+
+    
+## 👩‍💻 Author
+
+IfeforChrist - [@ifeforchrist](https://github.com/ifeforchrist)
+
+## ▶️ How to Run
+
 ```bash
 git clone https://github.com/ifeforchrist/ONLINE-LIBRARY.git
-cd ONLINE-LIBRARY
+cd ONLINE-LIBRARY/BACKEND
 npm install
+npm start
