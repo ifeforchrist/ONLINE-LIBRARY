@@ -4,54 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>ONLINE LIBRARY</title>
+    <title>Login | Online Library</title>
 </head>
 <body>
-    <div class="header">
-        <div class="navbar">
+    <header class="header">
+        <div class="logo">📚 ONLINE <span>LIBRARY</span></div>
+        <nav class="navbar">
             <ul class="navlinks">
-                <li><a href="#">HOME</a></li>
-                <li><a href="#">CATALOG</a></li>
-                <li><a href="#">CATEGORIES</a></li>
-                <li><a href="#">ABOUT</a></li>
-                <li><a href="#">CONTACT</a></li>
-
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#catalog">CATALOG</a></li>
+                <li><a href="#categories">CATEGORIES</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+                <li><a href="#login" class="active">LOGIN</a></li>
             </ul>
-            <div class="search-box">
-                <input type="text" placeholder="🔍">
-            </div>
-
+        </nav>
+    </header>
+     
+    <main class="welcome" id="home">
+        <div class="welcome-page">
+            <p class="badge">📖 Your Digital Library</p>
+            <h1>WELCOME <span>TO ONLINE LIBRARY</span></h1>
+            <p class="subtitle">Increase your knowledge, reduce your ignorance.</p>
+            <p class="small">Borrow books, track your reading, and explore thousands of titles from anywhere.</p>
         </div>
 
-    </div>
-     
+        <div class="form-wrap">
+            <form id="login">
+                <h2>Welcome Back</h2>
+                <p class="form-sub">Login to continue reading</p>
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="Enter your email" required>
+                <label for="password">Password</label>
+                <input id="password" type="password" placeholder="Enter your password" required>
+                <button type="submit" id="button">Login →</button>
+                <p class="switch">Don't have an account? <a href="register.html">Create one</a></p>
+            </form>
+        </div> 
+    </main>
 
-     
-    <div class="welcome">
-     <div class="welcome-page">
-        <h1>WELCOME <span>TO ONLINE LIBRARY</span>📚</h1>
-        <p>increase your knowledge reduce your ignorance</p>
-     </div>
+    <section id="catalog" class="section">
+        <h2>📚 Catalog</h2>
+        <p class="section-sub">Popular books in our library</p>
+        <div class="cards">
+            <div class="card"><h3>Things Fall Apart</h3><p>Chinua Achebe</p><span class="tag">Available</span></div>
+            <div class="card"><h3>Purple Hibiscus</h3><p>Chimamanda Ngozi Adichie</p><span class="tag">Available</span></div>
+            <div class="card"><h3>The Alchemist</h3><p>Paulo Coelho</p><span class="tag">Borrowed</span></div>
+        </div>
+    </section>
 
-       <div>
-        <form id="loginform">
-            <h1>login form</h1>
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="enter your email">
-            <label for="password">Password</label>
-            <input id="password"  type="password" placeholder="enter your password"><br>
-            <button type="submit" id="button">Submit</button>
+    <section id="categories" class="section">
+        <h2>📂 Categories</h2>
+        <div class="cards">
+            <div class="card">📖 Fiction</div>
+            <div class="card">🔬 Science</div>
+            <div class="card">📜 History</div>
+            <div class="card">💻 Technology</div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <h2>About Online Library</h2>
+        <p>Online Library helps students and readers borrow books easily without coming to the physical library. Increase your knowledge, reduce your ignorance.</p>
+    </section>
+
+    <section id="contact" class="section">
+        <h2>Contact Us</h2>
+        <p>Email: library@online.com</p>
+        <p>Location: Lagos, Nigeria</p>
+        <form class="contact-form">
+            <input type="text" placeholder="Your name">
+            <input type="email" placeholder="Your email">
+            <textarea placeholder="Your message"></textarea>
+            <button type="button">Send Message</button>
         </form>
-       </div> 
-          
-    </div>
+    </section>
 
+        <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <h3>📚 ONLINE LIBRARY</h3>
+                <p>Increase your knowledge, reduce your ignorance.</p>
+            </div>
 
-    
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#catalog">Catalog</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
 
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>Email: library@online.com</p>
+                <p>Location: Lagos, Nigeria</p>
+            </div>
+        </div>
 
-    <script src="auth.js"></script>
-    
-    
+        <div class="footer-bottom">
+         <p>© 2026 Online Library. All rights reserved.</p>
+          <p>Designed & Built by <span>ifeforchrist💚</span> 💻📚</p>
+        </div>
+    </footer>
+
+    <script src="login.js"></script>
 </body>
 </html>

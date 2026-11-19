@@ -1,6 +1,8 @@
 // BACKEND/MIDDLEWARE/AUTH.JS
-const jwt = require("jsonwebtoken")
-const Borrower = require("../models/borrower")
+import jwt from "jsonwebtoken"
+import Borrower from "../models/borrower.js"
+
+
 
 const secure = async(req, res, next)=>{
     try{
@@ -27,4 +29,4 @@ const secure = async(req, res, next)=>{
     
 }
 
-module.exports= {secure}
+export default {secure}

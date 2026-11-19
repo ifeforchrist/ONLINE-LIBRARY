@@ -6,16 +6,15 @@ const API_URL="http://localhost:7001/api"
   const password = document.getElementById('password').value
    console.log({ email, password})
 
+try{
 
-const response = await fetch(`${API_URL}/borrower/login`, {
+   const response = await fetch(`${API_URL}/borrower/login`, {
 
    method:'POST',
    headers:{'Content-Type': 'application/json'},
    body:JSON.stringify({ email, password})
 
 })
-
-try{
    const data = await response.json()
    if(response.ok){
       alert(data.message)
@@ -33,4 +32,4 @@ try{
 
      
 }
-document.getElementById("loginform").addEventListener('submit', handleSubmit)
+document.getElementById("login").addEventListener('submit', handleSubmit)
