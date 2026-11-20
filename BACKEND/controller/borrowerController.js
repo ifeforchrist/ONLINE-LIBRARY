@@ -43,13 +43,13 @@ const loginBorrower = async(req, res)=>{
     const borrower = await Borrower.findOne({email})
 
     if(!borrower){
-        return res.status(400).json({meassage: "unknown email"})
+        return res.status(400).json({message: "unknown email"})
     }
 
     const isMatch = await bcrypt.compare(password, borrower.password)
 
     if(!isMatch){
-        return res.status(400).json({success: false, meassage: "invalid passowrd"})
+        return res.status(400).json({success: false, message: "invalid passowrd"})
     }
 
     const token = createToken(borrower._id)
