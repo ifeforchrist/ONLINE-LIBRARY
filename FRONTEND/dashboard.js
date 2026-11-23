@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allBooks = [];
     let borrowedIds = new Set();
 
-    const API = 'http://localhost:7001/api/book';
+    const API = 'https://online-library-backend-three.vercel.app/api/book';
 
     const links = document.querySelectorAll('.sidebar ul li a');
     const sections = document.querySelectorAll('.page-section');
