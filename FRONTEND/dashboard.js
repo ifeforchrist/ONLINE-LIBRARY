@@ -11,8 +11,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allBooks = [];
     let borrowedIds = new Set();
+    let bookToDelete = null;
 
     const API = 'https://online-library-backend-three.vercel.app/api/book';
+
+    // --- DELETE POPUP LOGIC ---
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteBookName = document.getElementById('deleteBookName');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+
+    function askDelete(id, title) {
+        bookToDelete = id;
+        if (deleteBookName) deleteBookName.textContent = title;
+        if (deleteModal) deleteModal.style.display = 'flex';
+    }
+
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', () => {
+            bookToDelete = null;
+            if (deleteModal) deleteModal.style.display = 'none';
+        });
+    }
+
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', async () => {
+            if (!bookToDelete) return;
+            try {
+                await fetch(`${API}/${bookToDelete}`, { method: 'DELETE' });
+                if (deleteModal) deleteModal.style.display = 'none';
+                bookToDelete = null;
+                await loadBooks();
+            } catch (err) {
+                console.log(err);
+                if (deleteModal) deleteModal.style.display = 'none';
+            }
+        });
+    }
+    // --- END DELETE POPUP ---
 
     const links = document.querySelectorAll('.sidebar ul li a');
     const sections = document.querySelectorAll('.page-section');
@@ -29,44 +65,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function createBookCard(book) {
-        const div = document.createElement('div');
-        div.className = 'book';
-        div.dataset.id = book._id;
-        const isBorrowed = book.status === 'borrowed' || borrowedIds.has(book._id);
-        div.innerHTML = `
-            <img src="${book.coverImage || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400'}" alt="${book.title}">
-            <h4>${book.title}</h4>
-            <p>${book.author}</p>
-            <p style="font-size:12px; opacity:0.8;">${book.genre} • ${book.category || ''}</p>
-            <p style="font-size:12px;">⭐ ${book.rating} / 5 • ${book.pages || ''} pages • ${book.publishedYear || ''}</p>
-            <p style="font-size:12px;">${book.language || ''} • ${book.published || ''}</p>
-            <p style="font-size:12px;">${book.description || ''}</p>
-            <p style="font-size:12px;"><b>Status:</b> ${book.status}</p>
-            <button>${isBorrowed ? 'Borrowed' : 'Borrow'}</button>
-        `;
-        const btn = div.querySelector('button');
-        if (isBorrowed) btn.style.background = '#d312c3';
-        btn.addEventListener('click', async () => {
-            const newStatus = isBorrowed ? 'available' : 'borrowed';
-            try {
-                await fetch(`${API}/${book._id}/status`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                if (newStatus === 'borrowed') borrowedIds.add(book._id);
-                else borrowedIds.delete(book._id);
-                book.status = newStatus;
-                renderBooks(allBooks);
-            } catch (err) {
-                console.log(err);
-                if (isBorrowed) borrowedIds.delete(book._id);
-                else borrowedIds.add(book._id);
-                renderBooks(allBooks);
-            }
+    const div = document.createElement('div');
+    div.className = 'book';
+    div.dataset.id = book._id;
+    const isBorrowed = book.status === 'borrowed' || borrowedIds.has(book._id);
+    div.innerHTML = `
+        <img src="${book.coverImage || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400'}" alt="${book.title}">
+        <h4>${book.title}</h4>
+        <p>${book.author}</p>
+        <p style="font-size:12px; opacity:0.8;">${book.genre} • ${book.category || ''}</p>
+        <p style="font-size:12px;">⭐ ${book.rating} / 5 • ${book.pages || ''} pages • ${book.publishedYear || ''}</p>
+        <p style="font-size:12px;">${book.language || ''} • ${book.published || ''}</p>
+        <p style="font-size:12px;">${book.description || ''}</p>
+        <p style="font-size:12px;"><b>Status:</b> ${book.status}</p>
+        ${isBorrowed 
+          ? `<button class="return-btn" style="background:#2ecc71;">Return Book</button>` 
+          : `<button class="borrow-btn">Borrow</button>`
+        }
+        <button class="delete-btn" style="background:#ff3b30;margin-top:5px;">Delete</button>
+    `;
+
+    // BORROW
+    const borrowBtn = div.querySelector('.borrow-btn');
+    if (borrowBtn) {
+        borrowBtn.addEventListener('click', async () => {
+            await fetch(`${API}/${book._id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'borrowed' })
+            });
+            borrowedIds.add(book._id);
+            book.status = 'borrowed';
+            renderBooks(allBooks);
         });
-        return div;
     }
+
+    // RETURN
+    const returnBtn = div.querySelector('.return-btn');
+    if (returnBtn) {
+        returnBtn.addEventListener('click', async () => {
+            await fetch(`${API}/${book._id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'available' })
+            });
+            borrowedIds.delete(book._id);
+            book.status = 'available';
+            renderBooks(allBooks);
+        });
+    }
+
+    const deleteBtn = div.querySelector('.delete-btn');
+    deleteBtn.addEventListener('click', () => askDelete(book._id, book.title));
+
+    return div;
+}
 
     function renderBooks(books) {
         dashboardBooksEl.innerHTML = '';
@@ -76,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         borrowedListEl.innerHTML = '';
         const borrowedBooks = books.filter(b => b.status === 'borrowed' || borrowedIds.has(b._id));
         borrowedBooks.forEach(b => borrowedListEl.appendChild(createBookCard(b)));
-        // Total always from allBooks, not from filtered search
         if (totalBooksEl) totalBooksEl.textContent = allBooks.length;
         const count = allBooks.filter(b => b.status === 'borrowed' || borrowedIds.has(b._id)).length;
         if (borrowedCountEl) borrowedCountEl.innerHTML = count + ' <small>for 1/3</small>';
@@ -87,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetch(API);
             const data = await res.json();
-            console.log('Books from backend:', data); // <-- check this in console
+            console.log('Books from backend:', data);
             allBooks = Array.isArray(data) ? data : [];
             renderBooks(allBooks);
         } catch (err) {
@@ -97,14 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Search - fixed
     searchInput.addEventListener('input', () => {
         const q = searchInput.value.toLowerCase().trim();
-        console.log('Searching for:', q, 'in', allBooks.length, 'books'); // <-- check this
-        if (!q) {
-            renderBooks(allBooks);
-            return;
-        }
+        if (!q) { renderBooks(allBooks); return; }
         const filtered = allBooks.filter(b =>
             (b.title + ' ' + b.author + ' ' + b.genre + ' ' + (b.category || '') + ' ' + (b.description || '')).toLowerCase().includes(q)
         );
@@ -119,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             filtered.forEach(b => categoryBooksEl.appendChild(createBookCard(b)));
         });
     });
-    // ADD BOOK - form
+
     const addForm = document.getElementById('add-book-form');
     const addMsg = document.getElementById('add-book-msg');
     if (addForm) {
@@ -138,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 coverImage: document.getElementById('new-cover').value.trim() || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400',
                 description: document.getElementById('new-description').value.trim(),
                 status: "available"
-                // no createdBy - backend will fill it with Ife
             };
             try {
                 const res = await fetch(API, {
@@ -151,8 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 addMsg.textContent = '✅ Book added: ' + data.title;
                 addMsg.style.color = 'green';
                 addForm.reset();
-                await loadBooks(); // refresh dashboard + all books + total count
-                // go to All Books to see it
+                await loadBooks();
                 document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active-section'));
                 document.getElementById('all-books').classList.add('active-section');
             } catch (err) {

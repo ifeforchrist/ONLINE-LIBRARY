@@ -75,6 +75,8 @@
         <p class="section-sub">Books you have borrowed: <b id="borrowed-count-2">0</b></p>
         <p>Click Borrow on any book, it will show here. Your borrowed count updates automatically.</p>
         <div class="books" id="borrowed-list"></div>
+
+        
       </section>
 
       <!-- PROFILE -->
@@ -112,6 +114,15 @@
 
     </main>
   </div>
+   
+   <div id="deleteModal" class="modal" style="display:none;">
+  <div class="modal-box">
+    <h3>Delete this book?</h3>
+    <p id="deleteBookName"></p>
+    <button id="confirmDeleteBtn" style="background:red;color:white;">Yes, Delete</button>
+    <button id="cancelDeleteBtn">Cancel</button>
+  </div>
+</div>
 
 <script src="dashboard.js"></script>
 </body>
