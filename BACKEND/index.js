@@ -7,7 +7,7 @@ import bookRouter from "./router/book.js"
 import borrowerRouter from"./router/borrower.js"
 
 dotenv.config()
-connectDB()
+await connectDB()
 const app = express()
 // FOR MIDDLEWARE
 app.use(cors())
@@ -31,10 +31,10 @@ app.use("/api/borrower", borrowerRouter)
 const port = process.env.PORT || 5000
 
 
-
-app.listen(port, ()=>{
-  console.log(`server running on port ${port} `);
-  
-})
+if (process.env.VERCEL !== "1") {
+  app.listen(port, ()=>{
+    console.log(`server running on port ${port}`);
+  })
+}
 
 export default app
